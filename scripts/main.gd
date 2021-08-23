@@ -17,15 +17,15 @@ func _shot_fired(node):
 	pos.y -= 30
 	var shot = arrow.instance()
 	shot.position = pos
+	shot.dir = $archer.dir
+	shot.x_speed = $archer.archer_speed / 2
 	add_child(shot)
-	score += 1
-	print(score)
 	
 func _on_game_over(node):
 	print("game over")
-	get_tree().change_scene("game over.tscn")
+	get_tree().change_scene("res://scenes/game over.tscn")
 
 func _process(delta):
 	if $bird.position.y > screen_size.y - 10: 
-		get_tree().change_scene("game over.tscn")
-	elif $bird.position.y < 10: get_tree().change_scene("game over.tscn")
+		get_tree().change_scene("res://scenes/game over.tscn")
+	elif $bird.position.y < 10: get_tree().change_scene("res://scenes/game over.tscn")

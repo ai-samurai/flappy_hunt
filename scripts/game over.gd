@@ -9,8 +9,7 @@ func _ready():
 
 func _on_restartButton_pressed():
 	print("restart button pressed")
-
-	get_tree().change_scene("res://main.tscn")
+	get_tree().change_scene("res://scenes/main.tscn")
 
 
 func _on_quitButton_pressed():

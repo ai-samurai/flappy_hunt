@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-export var speed = 150
+export var speed = 200
 var screen_size
 var velocity = Vector2()
 var dir = 1
@@ -45,4 +45,4 @@ func _process(delta):
 		if allow_jump == true:
 			allow_jump = false
 			jump_cooldown.start()
-			velocity.y = -400
+			velocity.y = -500

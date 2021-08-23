@@ -1,7 +1,7 @@
 extends Area2D
 
 var archer_speed
-var dir = 1
+var dir = 1 # direction of archer movement, 1: right, -1: left
 var screen_size
 var shoot_animation_cooldown # amount of time for ending shooting animation
 var shoot_interval = 1 # time interval between successive shots
@@ -11,8 +11,13 @@ var archer_size
 signal shot_fired
 signal game_over
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
+	"""
+	Called when the node enters the scene tree for the first time.
+	input: None
+	returns: None
+	"""
 	screen_size = get_viewport_rect().size
 	archer_size = $CollisionShape2D.shape.extents
 	self.position = Vector2(50, screen_size.y-(2 * archer_size.y * self.scale.y))
@@ -26,6 +31,15 @@ func _ready():
 
 
 func add_timer(timer_name, time, timer_function, one_shot=true):
+	"""
+	function to add timer to the scene
+	input: timer_name (name that will given to the timer)
+			time (the wait time of the timer)
+			timer_function (the function that will be called when timer ends)
+			one_shot (default: true, used to determine if timer is one-time or
+			if it will be repeated, =false for repeating timer)
+	returns: None
+	"""
 	var timer = Timer.new()
 	timer.set_one_shot(one_shot)
 	timer.set_wait_time(time)
@@ -35,16 +49,38 @@ func add_timer(timer_name, time, timer_function, one_shot=true):
 	return timer
 	
 func on_shoot_interval():
+	"""
+	Called when the shoot interval timer is completed. shoot interval timer is 
+		used to control how frequently the archer will shoot arrows. This 
+		function starts the animation and then starts the animation timer.
+	input: None
+	returns: None
+	"""
 	$AnimatedSprite.animation = "shoot"
 	shoot_animation_cooldown.start()
 
 func on_shoot_animation_cooldown():
+	"""
+	Called when the shoot animation is completed. Currently shoot animation is
+		synced with shoot animation timer manually (0.45 seconds), when timer
+		ends this function is called. 
+	input: None
+	returns: None
+	"""
+	# emitted to signal that arrow has been fired
 	emit_signal("shot_fired", self)
+	# change the shoot_interval timer to random value between 0.5 and 1.5. This
+	# ensured that arrows are fired at random intervals
 	shoot_interval_cooldown.wait_time = rand_range(0.5, 1.5)
+	# change animation to "walk" after arrow has been fired
 	$AnimatedSprite.animation = "walk"
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	"""
+	Called every frame
+	input: 'delta' (elapsed time since the previous frame)
+	returns: None
+	"""
 	self.position.x += archer_speed * dir
 	if self.position.x > screen_size.x - 50:	
 		dir = -1
@@ -54,4 +90,9 @@ func _process(delta):
 		self.scale.x = 3
 
 func _on_archer_body_entered(body):
-	get_tree().change_scene("game over.tscn")
+	"""
+	Called when body enters the collision shape of self (archer in this case)
+	input: body (the node that entered the collision shape)
+	returns: None
+	"""
+	get_tree().change_scene("res://scenes/game over.tscn")
