@@ -7,6 +7,7 @@ var shoot_animation_cooldown # amount of time for ending shooting animation
 var shoot_interval = 1 # time interval between successive shots
 var shoot_interval_cooldown # timer for shoot interval 
 var archer_size
+var rng
 
 signal shot_fired
 signal game_over
@@ -18,6 +19,8 @@ func _ready():
 	input: None
 	returns: None
 	"""
+	rng = RandomNumberGenerator.new()
+	rng.randomize()
 	screen_size = get_viewport_rect().size
 	archer_size = $CollisionShape2D.shape.extents
 	self.position = Vector2(50, screen_size.y-(2 * archer_size.y * self.scale.y))
@@ -71,7 +74,7 @@ func on_shoot_animation_cooldown():
 	emit_signal("shot_fired", self)
 	# change the shoot_interval timer to random value between 0.5 and 1.5. This
 	# ensured that arrows are fired at random intervals
-	shoot_interval_cooldown.wait_time = rand_range(0.5, 1.5)
+	shoot_interval_cooldown.wait_time = rng.randf_range(0.5, 1.5)
 	# change animation to "walk" after arrow has been fired
 	$AnimatedSprite.animation = "walk"
 

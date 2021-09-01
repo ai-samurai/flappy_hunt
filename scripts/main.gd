@@ -4,6 +4,7 @@ onready var arrow = load("res://scenes/arrow.tscn")
 
 var screen_size
 var score = 0
+var time = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,10 +23,17 @@ func _shot_fired(node):
 	add_child(shot)
 	
 func _on_game_over(node):
-	print("game over")
+	
 	get_tree().change_scene("res://scenes/game over.tscn")
 
 func _process(delta):
+	time += delta 
 	if $bird.position.y > screen_size.y - 10: 
 		get_tree().change_scene("res://scenes/game over.tscn")
 	elif $bird.position.y < 10: get_tree().change_scene("res://scenes/game over.tscn")
+	
+func _input(event):
+	if Input.is_action_just_pressed("ui_cancel"): 
+		$pause.get_node("pause_scene").res_button.grab_focus()
+		$pause.get_node("pause_scene").visible = not $pause.get_node("pause_scene").visible 
+		get_tree().paused = not get_tree().paused

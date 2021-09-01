@@ -9,7 +9,7 @@ var speed
 var dir = 1
 var x_speed = 0
 
-var main
+var global
 
 
 func _ready():
@@ -19,7 +19,7 @@ func _ready():
 	returns: None
 	"""
 	screen_size = get_viewport_rect().size
-	main = get_tree().root.get_child(0)
+	global = get_node("/root/Global")
 	$AnimateSprite.animation = "move"
 	$AnimateSprite.play()
 	speed = start_speed
@@ -41,7 +41,8 @@ func x_pos(delta):
 	input: delta
 	returns: None
 	"""
-	self.position.x += x_speed * dir
+	#self.position.x += x_speed * dir
+	pass
 	
 func y_pos(delta):
 	"""
@@ -85,8 +86,9 @@ func arrow_exit():
 	input: None
 	returns: None
 	"""
+	
 	if self.position.y > screen_size.y:
-		main.score += 1 
+		global.score += 1  
 		queue_free()
 
 func _on_arrow_body_entered(body):
