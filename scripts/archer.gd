@@ -8,9 +8,9 @@ var shoot_interval = 1 # time interval between successive shots
 var shoot_interval_cooldown # timer for shoot interval 
 var archer_size
 var rng
+var global
 
 signal shot_fired
-signal game_over
 
 
 func _ready():
@@ -19,6 +19,7 @@ func _ready():
 	input: None
 	returns: None
 	"""
+	global = get_node("/root/Global")
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 	screen_size = get_viewport_rect().size
@@ -72,9 +73,9 @@ func on_shoot_animation_cooldown():
 	"""
 	# emitted to signal that arrow has been fired
 	emit_signal("shot_fired", self)
-	# change the shoot_interval timer to random value between 0.5 and 1.5. This
+	# change the shoot_interval timer to random value between min and max. This
 	# ensured that arrows are fired at random intervals
-	shoot_interval_cooldown.wait_time = rng.randf_range(0.5, 1.5)
+	shoot_interval_cooldown.wait_time = rng.randf_range(1, 2)
 	# change animation to "walk" after arrow has been fired
 	$AnimatedSprite.animation = "walk"
 
@@ -98,4 +99,4 @@ func _on_archer_body_entered(body):
 	input: body (the node that entered the collision shape)
 	returns: None
 	"""
-	get_tree().change_scene("res://scenes/game over.tscn")
+	global._game_over()

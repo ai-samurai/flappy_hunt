@@ -8,9 +8,11 @@ var dir = 1
 var jump_cooldown
 var allow_jump = true
 var gravity = 10
+var global
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	global = get_tree().root.get_child(0)
 	screen_size = get_viewport_rect().size
 	$AnimatedSprite.play()
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")

@@ -97,4 +97,4 @@ func _on_arrow_body_entered(body):
 	input: body (the node that entered the arrow's collision shape)
 	returns: None
 	"""
-	get_tree().change_scene("res://scenes/game over.tscn")
+	global._game_over()
