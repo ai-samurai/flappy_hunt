@@ -58,7 +58,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=10]
-radius = 8.75441
+radius = 7.16732
 
 [node name="bird" type="KinematicBody2D"]
 position = Vector2( 60, 60 )

@@ -97,4 +97,5 @@ func _on_arrow_body_entered(body):
 	input: body (the node that entered the arrow's collision shape)
 	returns: None
 	"""
+	get_tree().paused = true
 	global._game_over()
