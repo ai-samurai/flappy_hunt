@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Flappy Bird Assets/Background/Background3.png" type="Texture" id=1]
+[ext_resource path="res://Flappy Bird Assets/Background/textured-paper-background-1.jpg" type="Texture" id=1]
 [ext_resource path="res://scenes/archer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/main.gd" type="Script" id=3]
 [ext_resource path="res://scenes/player.tscn" type="PackedScene" id=4]
@@ -11,13 +11,18 @@
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 1.88864, 2.82396 )
+scale = Vector2( 0.18, 0.15 )
 texture = ExtResource( 1 )
 centered = false
 
 [node name="bird" parent="." instance=ExtResource( 4 )]
+scale = Vector2( 1.5, 1.5 )
 
 [node name="archer" parent="." instance=ExtResource( 2 )]
+scale = Vector2( 2, 2 )
+
+[node name="archer2" parent="." instance=ExtResource( 2 )]
+scale = Vector2( 2, 2 )
 
 [node name="Label" type="Label" parent="."]
 margin_left = 20.0

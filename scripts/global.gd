@@ -13,9 +13,9 @@ func _process(delta):
 
 func _game_over():
 	get_tree().paused = true
-	#yield(get_tree().create_timer(1.0), "timeout")
-	#get_tree().paused = false
-	#get_tree().change_scene("res://scenes/game over.tscn")
+	yield(get_tree().create_timer(1.0), "timeout")
+	get_tree().paused = false
+	get_tree().change_scene("res://scenes/game over.tscn")
 
 
 func freeze_frame(timeScale, duration):

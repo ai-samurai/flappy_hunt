@@ -24,7 +24,9 @@ func _ready():
 	rng.randomize()
 	screen_size = get_viewport_rect().size
 	archer_size = $CollisionShape2D.shape.extents
-	self.position = Vector2(50, screen_size.y-(2 * archer_size.y * self.scale.y))
+	if self.name == "archer":
+		self.position = Vector2(50, screen_size.y-(2 * archer_size.y * self.scale.y))
+	else: self.position = Vector2(screen_size.x - 50, screen_size.y-(1 * archer_size.y * self.scale.y))
 	archer_speed = 2
 	$AnimatedSprite.animation = "walk"
 	$AnimatedSprite.play()
@@ -88,10 +90,10 @@ func _process(delta):
 	self.position.x += archer_speed * dir
 	if self.position.x > screen_size.x - 50:	
 		dir = -1
-		self.scale.x = -3
+		self.scale.x = -2
 	elif self.position.x < 50: 
 		dir = 1
-		self.scale.x = 3
+		self.scale.x = 2
 
 func _on_archer_body_entered(body):
 	"""

@@ -1,76 +1,105 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Flappy Bird Assets/Player/bird3.png" type="Texture" id=1]
 [ext_resource path="res://Flappy Bird Assets/Player/bird3_left.png" type="Texture" id=2]
 [ext_resource path="res://scripts/player.gd" type="Script" id=3]
+[ext_resource path="res://Flappy Bird Assets/Player/black_hollow_ball.png" type="Texture" id=4]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 32, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
-atlas = ExtResource( 2 )
+atlas = ExtResource( 1 )
 region = Rect2( 48, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=5]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 2 )
 region = Rect2( 0, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 2 )
 region = Rect2( 16, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=7]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 2 )
 region = Rect2( 32, 0, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=8]
 flags = 4
-atlas = ExtResource( 1 )
+atlas = ExtResource( 2 )
 region = Rect2( 48, 0, 16, 16 )
 
 [sub_resource type="SpriteFrames" id=9]
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
 "loop": true,
-"name": "fly_left",
+"name": "fly_right",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
 "loop": true,
-"name": "fly_right",
+"name": "fly_left",
 "speed": 5.0
 } ]
 
 [sub_resource type="CircleShape2D" id=10]
-radius = 7.16732
+radius = 5.5
+
+[sub_resource type="Shader" id=11]
+code = "shader_type canvas_item;
+
+
+void vertex(){
+	//VERTEX += vec2(cos(TIME)*10.0, sin(TIME)*10.0);
+}
+
+void fragment(){
+	float radius = pow((pow((UV-vec2(0.5,0.5))[0], 2.0)) + (pow((UV-vec2(0.5,0.5))[1], 2.0)), 0.5);
+	COLOR = texture(TEXTURE, UV);
+	COLOR.r = 0.1; //2.0 * pow(radius, 1.0); // *((UV-vec2(0.5,0.5))[0]) + 6.0*((UV-vec2(0.5,0.5))[1])*((UV-vec2(0.5,0.5))[1]);
+	COLOR.g = 0.1; //0.20 * cos(radius); //UV[0]; //+UV[1]*-1.0*1.0;
+	COLOR.b = 0.1; //0.25 * cos(radius); //UV[0]; //+UV[1]*-1.0*1.0;
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 11 )
 
 [node name="bird" type="KinematicBody2D"]
 position = Vector2( 60, 60 )
-scale = Vector2( 2, 2 )
 input_pickable = true
 collision_mask = 6
 script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+visible = false
 frames = SubResource( 9 )
 animation = "fly_left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+modulate = Color( 0.682353, 1, 1, 1 )
 scale = Vector2( 1, 0.9 )
 shape = SubResource( 10 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 12 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 4 )
+[connection signal="input_event" from="." to="." method="_on_bird_input_event"]

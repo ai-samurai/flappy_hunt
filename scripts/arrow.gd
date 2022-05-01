@@ -1,4 +1,4 @@
-extends Area2D
+extends KinematicBody2D
 
 
 var screen_size
@@ -91,11 +91,11 @@ func arrow_exit():
 		global.score += 1  
 		queue_free()
 
-func _on_arrow_body_entered(body):
-	"""
-	Called when body enters the collision shape of self
-	input: body (the node that entered the arrow's collision shape)
-	returns: None
-	"""
-	get_tree().paused = true
-	global._game_over()
+#func _on_arrow_body_entered(body):
+#	"""
+#	Called when body enters the collision shape of self
+#	input: body (the node that entered the arrow's collision shape)
+#	returns: None
+#	"""
+#	get_tree().paused = true
+#	global._game_over()
