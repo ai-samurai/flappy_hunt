@@ -1,16 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Fonts/robo.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Fonts/robo32.tres" type="DynamicFont" id=2]
-[ext_resource path="res://scenes/pause_scene.gd" type="Script" id=3]
-
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.160784, 0.498039, 0.54902, 1 )
-border_width_left = 20
-border_width_top = 20
-border_width_right = 20
-border_width_bottom = 20
-border_color = Color( 0, 0, 0, 1 )
+[ext_resource path="res://scripts/pause_scene.gd" type="Script" id=3]
 
 [node name="pause" type="Control"]
 pause_mode = 2
@@ -22,71 +13,64 @@ __meta__ = {
 }
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 60.0
-margin_right = 408.0
-margin_bottom = 523.0
-custom_styles/panel = SubResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_right = 14.0
+margin_bottom = 14.0
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
-margin_left = 20.0
-margin_top = 20.0
-margin_right = 328.0
-margin_bottom = 503.0
-custom_constants/margin_right = 40
-custom_constants/margin_top = 40
-custom_constants/margin_left = 40
-custom_constants/margin_bottom = 40
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 121.0
+margin_bottom = 158.0
 
-[node name="rows" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
-margin_left = 40.0
-margin_top = 40.0
-margin_right = 268.0
-margin_bottom = 443.0
-custom_constants/separation = 90
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+margin_right = 114.0
+margin_bottom = 151.0
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/rows"]
-margin_right = 228.0
-margin_bottom = 86.0
-custom_fonts/font = ExtResource( 1 )
-text = "PAUSED"
-align = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/rows"]
-margin_top = 176.0
-margin_right = 228.0
-margin_bottom = 403.0
-custom_constants/separation = 40
-
-[node name="resume" type="Button" parent="PanelContainer/MarginContainer/rows/VBoxContainer"]
-margin_right = 228.0
-margin_bottom = 49.0
-focus_neighbour_top = NodePath("../quitButton")
-focus_neighbour_bottom = NodePath("../restartButton")
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+margin_right = 114.0
+margin_bottom = 43.0
 custom_fonts/font = ExtResource( 2 )
+text = "PAUSED"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 47.0
+margin_right = 114.0
+margin_bottom = 115.0
+
+[node name="resume" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_right = 114.0
+margin_bottom = 20.0
 text = "Resume"
 
-[node name="restartButton" type="Button" parent="PanelContainer/MarginContainer/rows/VBoxContainer"]
-margin_top = 89.0
-margin_right = 228.0
-margin_bottom = 138.0
-focus_neighbour_top = NodePath("../resume")
-focus_neighbour_bottom = NodePath("../quitButton")
-custom_fonts/font = ExtResource( 2 )
+[node name="restart" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 24.0
+margin_right = 114.0
+margin_bottom = 44.0
 text = "Restart"
 
-[node name="quitButton" type="Button" parent="PanelContainer/MarginContainer/rows/VBoxContainer"]
-margin_top = 178.0
-margin_right = 228.0
-margin_bottom = 227.0
-focus_neighbour_top = NodePath("../restartButton")
-focus_neighbour_bottom = NodePath("../resume")
-custom_fonts/font = ExtResource( 2 )
+[node name="quit" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+margin_top = 48.0
+margin_right = 114.0
+margin_bottom = 68.0
 text = "Quit"
-[connection signal="pressed" from="PanelContainer/MarginContainer/rows/VBoxContainer/resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/rows/VBoxContainer/restartButton" to="." method="_on_restartButton_pressed"]
-[connection signal="pressed" from="PanelContainer/MarginContainer/rows/VBoxContainer/quitButton" to="." method="_on_quitButton_pressed"]
+
+[node name="scores" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 119.0
+margin_right = 114.0
+margin_bottom = 151.0
+
+[node name="score" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/scores"]
+margin_right = 114.0
+margin_bottom = 14.0
+text = "Score: "
+align = 1
+
+[node name="highcore" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/scores"]
+margin_top = 18.0
+margin_right = 114.0
+margin_bottom = 32.0
+text = "Highscore: "
+align = 1
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/VBoxContainer/quit" to="." method="_on_quit_pressed"]

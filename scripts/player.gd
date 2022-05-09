@@ -12,10 +12,12 @@ var gravity = 10
 var global
 var selected = false
 var remaining_boosts = 3
+var main
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	global = get_tree().root.get_child(0)
+	main = get_parent()
 	screen_size = get_viewport_rect().size
 	$AnimatedSprite.play()
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")
@@ -74,7 +76,7 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	if collision: 
 		#dir = -1 * dir
-		global._game_over()
+		main._game_over()
 	if selected and not collision:
 		global_position = lerp(global_position, get_global_mouse_position(), 25 * delta)
 

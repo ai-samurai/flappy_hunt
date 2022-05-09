@@ -2,8 +2,8 @@ extends KinematicBody2D
 
 
 var screen_size
-var start_speed = 12
-var acc = 9
+var start_speed = 6 # orignal = 11
+var acc = 3 # original = 8
 var min_speed = 4
 var speed
 var dir = 1
@@ -51,7 +51,9 @@ func y_pos(delta):
 	returns: None
 	"""
 	speed -= acc * delta
-	self.position.y -= speed
+	if get_parent().test != true:
+		self.position.y -= speed
+	
 
 func rotate_arrow(direction):
 	"""

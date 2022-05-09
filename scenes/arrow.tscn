@@ -42,7 +42,7 @@ frames = SubResource( 5 )
 animation = "move"
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( 0.148422, -15.436, 4.08768, -6.66559, 1.00635, -7, 1.11465, 0.172363, -0.966461, 0.0980225, -0.585602, -7.09366, -4.16245, -6.81427 )
+polygon = PoolVector2Array( 0.14859, -12.686, 3.71623, -6.81427, 1.00635, -7, 0.966187, 3.44263, -1.04062, 3.36835, -0.585602, -7.09366, -3.56769, -6.88861 )
 
 [node name="Tween" type="Tween" parent="."]
 [connection signal="input_event" from="." to="." method="_on_arrow_input_event"]

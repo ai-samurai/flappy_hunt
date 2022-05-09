@@ -4,11 +4,12 @@ var archer_speed
 var dir = 1 # direction of archer movement, 1: right, -1: left
 var screen_size
 var shoot_animation_cooldown # amount of time for ending shooting animation
-var shoot_interval = 1 # time interval between successive shots
+var shoot_interval = 2 # time interval between successive shots # orignal = 1
 var shoot_interval_cooldown # timer for shoot interval 
 var archer_size
 var rng
 var global
+var main
 
 signal shot_fired
 
@@ -19,6 +20,7 @@ func _ready():
 	input: None
 	returns: None
 	"""
+	main = get_parent()
 	global = get_node("/root/Global")
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
@@ -101,4 +103,4 @@ func _on_archer_body_entered(body):
 	input: body (the node that entered the collision shape)
 	returns: None
 	"""
-	global._game_over()
+	main._game_over()
