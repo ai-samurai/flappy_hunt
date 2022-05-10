@@ -11,13 +11,14 @@
 [ext_resource path="res://Flappy Bird Assets/props/border.png" type="Texture" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 11.5, 186.801 )
+extents = Vector2( 11.5, 206.587 )
 
 [node name="main" type="Node2D"]
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.18, 0.15 )
+z_index = -1
 texture = ExtResource( 1 )
 centered = false
 
@@ -58,7 +59,9 @@ transform = Transform2D( 1, 0, 0, 1, 300, 150 )
 visible = false
 
 [node name="left_bar" type="StaticBody2D" parent="."]
-position = Vector2( 30, 210 )
+position = Vector2( 30, 230 )
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="left_bar"]
 shape = SubResource( 1 )
@@ -68,7 +71,9 @@ texture = ExtResource( 8 )
 offset = Vector2( 0, -2 )
 
 [node name="right_bar" type="StaticBody2D" parent="."]
-position = Vector2( 770, 210 )
+position = Vector2( 770, 230 )
+collision_layer = 4
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right_bar"]
 shape = SubResource( 1 )
@@ -78,6 +83,16 @@ texture = ExtResource( 8 )
 offset = Vector2( 0, -2 )
 flip_h = true
 
-[node name="border" type="Sprite" parent="."]
+[node name="border" type="StaticBody2D" parent="."]
+input_pickable = true
+collision_layer = 4
+collision_mask = 4
+
+[node name="border" type="Sprite" parent="border"]
 texture = ExtResource( 9 )
 centered = false
+
+[node name="collider" type="CollisionPolygon2D" parent="border"]
+position = Vector2( 400, 225 )
+build_mode = 1
+polygon = PoolVector2Array( -393.92, -218.013, 396.625, -220.134, 395.211, 219.363, -393.868, 222.194, -394.811, 215.587, 390.492, 214.643, 390.492, -214.819, -388.204, -212.932, -389.148, 212.756, -396.699, 211.812 )

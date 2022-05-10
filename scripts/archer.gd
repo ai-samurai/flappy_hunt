@@ -97,6 +97,7 @@ func _process(delta):
 	elif self.position.x < 70: 
 		dir = 1
 		#self.scale.x = 2
+	pass
 
 func _on_archer_body_entered(body):
 	"""

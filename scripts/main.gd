@@ -7,6 +7,7 @@ var score = 0
 var time = 0
 var global
 var test = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().paused = false
@@ -45,7 +46,7 @@ func _process(delta):
 	if get_tree().paused != true:
 		$pause.get_node("pause_scene").visible = false
 	time += delta 
-	if $bird.position.y > screen_size.y - 10: 
+	if $bird.position.y > screen_size.y + 50: 
 		_game_over()
 	elif $bird.position.y < -100: 
 		_game_over()

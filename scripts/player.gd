@@ -7,6 +7,7 @@ var screen_size
 var velocity = Vector2()
 var dir = 1
 var jump_cooldown
+var bounce_cooldown
 var allow_jump = true
 var gravity = 10
 var global
@@ -22,6 +23,7 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	$AnimatedSprite.play()
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")
+	bounce_cooldown = add_timer("bounce_cooldown", 0.1, "on_bounce_cooldown_complete")
 
 
 # add a timer to the main_scene
@@ -37,6 +39,10 @@ func add_timer(timer_name, time, timer_function, one_shot=true):
 
 func on_jump_cooldown_complete():
 	allow_jump = true
+	
+
+func on_bounce_cooldown_complete():
+	main.get_node("border/collider").disabled = false
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -76,7 +82,7 @@ func _physics_process(delta):
 	
 	var collision = move_and_collide(velocity * delta)
 	if collision:
-		if not "bar" in collision.collider.name: 
+		if not "bar" in collision.collider.name and not "border" in collision.collider.name: 
 		#dir = -1 * dir
 			main._game_over()
 		if "bar" in collision.collider.name:
@@ -86,6 +92,10 @@ func _physics_process(delta):
 					increase_score()
 					remaining_boosts = 1
 			dir = -1 * dir
+		if "border" in collision.collider.name:
+			main.get_node("border/collider").disabled = true
+			velocity.y = -0.7 * velocity.y
+			bounce_cooldown.start()
 	if selected and not collision:
 		global_position = lerp(global_position, get_global_mouse_position(), 25 * delta)
 
