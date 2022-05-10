@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Flappy Bird Assets/Arrow.png" type="Texture" id=1]
 [ext_resource path="res://scripts/arrow.gd" type="Script" id=2]
+[ext_resource path="res://Flappy Bird Assets/props/arrow.png" type="Texture" id=3]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -37,12 +38,18 @@ collision_layer = 4
 script = ExtResource( 2 )
 
 [node name="AnimateSprite" type="AnimatedSprite" parent="."]
+visible = false
 position = Vector2( 0, 4.5 )
 frames = SubResource( 5 )
 animation = "move"
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( 0.14859, -12.686, 3.71623, -6.81427, 1.00635, -7, 0.966187, 3.44263, -1.04062, 3.36835, -0.585602, -7.09366, -3.56769, -6.88861 )
+scale = Vector2( 0.5, 0.5 )
+polygon = PoolVector2Array( 0.0504913, -28.2209, 3.42372, -11.8508, 5.80482, -10.3627, 4.61427, 28.3303, -4.81091, 28.6279, -5.80304, -10.1642, -3.22353, -11.8508 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
 [connection signal="input_event" from="." to="." method="_on_arrow_input_event"]

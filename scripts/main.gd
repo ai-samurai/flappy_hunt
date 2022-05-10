@@ -23,6 +23,7 @@ func _ready():
 	# set archer positions
 	$archer.position = Vector2(50, screen_size.y - 50)
 	$archer2.position = Vector2(screen_size.x - 110, screen_size.y - 50)
+	$archer2.get_node("Sprite").set_flip_h(true)
 	
 
 func _shot_fired(node):
