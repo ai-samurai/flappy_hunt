@@ -84,6 +84,7 @@ func _physics_process(delta):
 				if last_collided_bar != collision.collider.name:
 					last_collided_bar = collision.collider.name
 					increase_score()
+					remaining_boosts = 1
 			dir = -1 * dir
 	if selected and not collision:
 		global_position = lerp(global_position, get_global_mouse_position(), 25 * delta)
