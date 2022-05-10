@@ -90,7 +90,7 @@ func arrow_exit():
 	"""
 	
 	if self.position.y > screen_size.y:
-		global.score += 1  
+		#global.score += 1  
 		queue_free()
 
 #func _on_arrow_body_entered(body):

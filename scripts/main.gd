@@ -11,14 +11,7 @@ var test = false
 func _ready():
 	get_tree().paused = false
 	if test == true:
-		$archer.queue_free()
-		$archer2.queue_free()
-		var test_shot = arrow.instance()
-		test_shot.position.y = 250
-		test_shot.position.x = 250
-		add_child(test_shot)
 		$bird.gravity = 0
-		$bird.speed = 0
 	global = get_tree().root.get_child(0)
 	screen_size = get_viewport_rect().size
 	global.screen_size = screen_size
@@ -27,6 +20,10 @@ func _ready():
 	$archer2.connect("shot_fired", self, "_shot_fired")
 	$archer.connect("game_over" , self, "_on_game_over")
 	get_signal_list()
+	# set archer positions
+	$archer.position = Vector2(50, screen_size.y - 50)
+	$archer2.position = Vector2(screen_size.x - 110, screen_size.y - 50)
+	
 
 func _shot_fired(node):
 	var pos = node.position
@@ -60,5 +57,6 @@ func _input(event):
 		$pause.get_node("pause_scene").visible = not $pause.get_node("pause_scene").visible 
 		get_tree().paused = not get_tree().paused
 #	if Input.is_action_just_pressed("ui_cancel"): 
-#		
+	if Input.is_mouse_button_pressed(1):
+		print(get_global_mouse_position())	
 

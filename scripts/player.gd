@@ -13,6 +13,7 @@ var global
 var selected = false
 var remaining_boosts = 3
 var main
+var last_collided_bar = "left_bar"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -74,9 +75,16 @@ func _physics_process(delta):
 	velocity.x = dir * speed
 	
 	var collision = move_and_collide(velocity * delta)
-	if collision: 
+	if collision:
+		if not "bar" in collision.collider.name: 
 		#dir = -1 * dir
-		main._game_over()
+			main._game_over()
+		if "bar" in collision.collider.name:
+			if last_collided_bar:
+				if last_collided_bar != collision.collider.name:
+					last_collided_bar = collision.collider.name
+					increase_score()
+			dir = -1 * dir
 	if selected and not collision:
 		global_position = lerp(global_position, get_global_mouse_position(), 25 * delta)
 
@@ -89,3 +97,7 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and not event.pressed:
 			selected = false
+
+
+func increase_score(x = 1):
+	global.score += x

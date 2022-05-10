@@ -6,7 +6,7 @@ var screen_size
 var shoot_animation_cooldown # amount of time for ending shooting animation
 var shoot_interval = 2 # time interval between successive shots # orignal = 1
 var shoot_interval_cooldown # timer for shoot interval 
-var archer_size
+var archer_pos_offset
 var rng
 var global
 var main
@@ -25,10 +25,11 @@ func _ready():
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 	screen_size = get_viewport_rect().size
-	archer_size = $CollisionShape2D.shape.extents
-	if self.name == "archer":
-		self.position = Vector2(50, screen_size.y-(2 * archer_size.y * self.scale.y))
-	else: self.position = Vector2(screen_size.x - 50, screen_size.y-(1 * archer_size.y * self.scale.y))
+#	archer_pos_offset = Vector2(60, 60)
+#	print(archer_pos_offset)
+#	if self.name == "archer":
+#		self.position = Vector2(50, screen_size.y-(2 * archer_pos_offset.y * self.scale.y))
+#	else: self.position = Vector2(screen_size.x - 50, screen_size.y-(1 * archer_pos_offset.y * self.scale.y))
 	archer_speed = 2
 	$AnimatedSprite.animation = "walk"
 	$AnimatedSprite.play()
@@ -90,12 +91,12 @@ func _process(delta):
 	returns: None
 	"""
 	self.position.x += archer_speed * dir
-	if self.position.x > screen_size.x - 50:	
+	if self.position.x > screen_size.x - 70:	
 		dir = -1
-		self.scale.x = -2
-	elif self.position.x < 50: 
+		#self.scale.x = -2
+	elif self.position.x < 70: 
 		dir = 1
-		self.scale.x = 2
+		#self.scale.x = 2
 
 func _on_archer_body_entered(body):
 	"""
@@ -103,4 +104,5 @@ func _on_archer_body_entered(body):
 	input: body (the node that entered the collision shape)
 	returns: None
 	"""
-	main._game_over()
+	if not "bar" in body.name:
+		main._game_over()

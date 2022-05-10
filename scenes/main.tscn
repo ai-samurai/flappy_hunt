@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Flappy Bird Assets/Background/textured-paper-background-1.jpg" type="Texture" id=1]
 [ext_resource path="res://scenes/archer.tscn" type="PackedScene" id=2]
@@ -7,6 +7,11 @@
 [ext_resource path="res://scripts/Label.gd" type="Script" id=5]
 [ext_resource path="res://scenes/pause_scene.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/game_over.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Flappy Bird Assets/props/symbols_and_bar.png" type="Texture" id=8]
+[ext_resource path="res://Flappy Bird Assets/props/border.png" type="Texture" id=9]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 11.5, 186.801 )
 
 [node name="main" type="Node2D"]
 script = ExtResource( 3 )
@@ -51,3 +56,28 @@ transform = Transform2D( 1, 0, 0, 1, 300, 150 )
 
 [node name="game_over" parent="CanvasLayer" instance=ExtResource( 7 )]
 visible = false
+
+[node name="left_bar" type="StaticBody2D" parent="."]
+position = Vector2( 30, 210 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="left_bar"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="left_bar"]
+texture = ExtResource( 8 )
+offset = Vector2( 0, -2 )
+
+[node name="right_bar" type="StaticBody2D" parent="."]
+position = Vector2( 770, 210 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right_bar"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="right_bar"]
+texture = ExtResource( 8 )
+offset = Vector2( 0, -2 )
+flip_h = true
+
+[node name="border" type="Sprite" parent="."]
+texture = ExtResource( 9 )
+centered = false
