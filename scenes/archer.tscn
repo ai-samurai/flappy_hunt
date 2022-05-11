@@ -58,6 +58,7 @@ frames = SubResource( 7 )
 animation = "walk"
 
 [node name="collider" type="CollisionPolygon2D" parent="."]
+visible = false
 position = Vector2( -34.0906, 1.18921 )
 polygon = PoolVector2Array( 34.2306, -12.8342, 4.53403, 17.7534, 63.0364, 17.7534 )
 

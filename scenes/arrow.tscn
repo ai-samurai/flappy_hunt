@@ -45,11 +45,12 @@ animation = "move"
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="."]
 scale = Vector2( 0.5, 0.5 )
-polygon = PoolVector2Array( 0.0504913, -28.2209, 3.42372, -11.8508, 5.80482, -10.3627, 4.61427, 28.3303, -4.81091, 28.6279, -5.80304, -10.1642, -3.22353, -11.8508 )
+polygon = PoolVector2Array( 0.0504913, -28.2209, 3.42372, -11.8508, 5.80482, -10.3627, 4.19983, 27.6187, -4.19708, 27.4419, -5.80304, -10.1642, -3.22353, -11.8508 )
 
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
+z_index = -1
 texture = ExtResource( 3 )
 [connection signal="input_event" from="." to="." method="_on_arrow_input_event"]
