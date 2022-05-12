@@ -51,7 +51,6 @@ func _process(delta):
 	elif $bird.position.y < -100: 
 		_game_over()
 	
-	
 func _input(event):
 	if Input.is_action_just_pressed("ui_cancel"): 
 		$pause.get_node("pause_scene").update_score_labels()
@@ -59,6 +58,15 @@ func _input(event):
 		$pause.get_node("pause_scene").visible = not $pause.get_node("pause_scene").visible 
 		get_tree().paused = not get_tree().paused
 #	if Input.is_action_just_pressed("ui_cancel"): 
-	if Input.is_mouse_button_pressed(1):
+	if Input.is_mouse_button_pressed(1) and test == true:
 		print(get_global_mouse_position())	
 
+func _on_MobileControls_left_swipe(start_postion):
+	$bird.left_move()
+	
+func _on_MobileControls_right_swipe(start_position):
+	$bird.right_move()
+
+
+func _on_MobileControls_jump(start_position):
+	$bird.jump()

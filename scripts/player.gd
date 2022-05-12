@@ -12,7 +12,7 @@ var allow_jump = true
 var gravity = 10
 var global
 var selected = false
-var remaining_boosts = 3
+var remaining_boosts = 1
 var main
 var last_collided_bar = "left_bar"
 
@@ -58,20 +58,11 @@ func _process(delta):
 	if dir == 1: $AnimatedSprite.animation = "fly_right"
 	else: $AnimatedSprite.animation = "fly_left"
 	if Input.is_action_pressed("ui_select"):
-		if allow_jump == true:
-			allow_jump = false
-			jump_cooldown.start()
-			velocity.y = -500
+		jump()
 	if Input.is_action_just_pressed("ui_left"):
-		if dir == -1 and remaining_boosts > 0:
-			remaining_boosts -= 1
-			speed = default_speed*3
-		dir = -1
+		left_move()
 	if Input.is_action_just_pressed("ui_right"):
-		if dir == 1 and remaining_boosts > 0:
-			remaining_boosts -= 1
-			speed = default_speed*3
-		dir = 1
+		right_move()
 
 func _physics_process(delta):
 	if speed > default_speed:
@@ -101,7 +92,7 @@ func _physics_process(delta):
 
 
 func _on_bird_input_event(viewport, event, shape_idx):
-	if Input.is_action_just_pressed("click"):
+	if Input.is_action_just_pressed("click") and main.test == true:
 		selected = true
 
 func _input(event):
@@ -109,6 +100,23 @@ func _input(event):
 		if event.button_index == BUTTON_LEFT and not event.pressed:
 			selected = false
 
+func left_move():
+	if dir == -1 and remaining_boosts > 0:
+		remaining_boosts -= 1
+		speed = default_speed*3
+	dir = -1
+
+func right_move():
+	if dir == 1 and remaining_boosts > 0:
+		remaining_boosts -= 1
+		speed = default_speed*3
+	dir = 1
+
+func jump():
+	if allow_jump == true:
+		allow_jump = false
+		jump_cooldown.start()
+		velocity.y = -500
 
 func increase_score(x = 1):
 	global.score += x

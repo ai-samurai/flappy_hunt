@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Flappy Bird Assets/Background/textured-paper-background-1.jpg" type="Texture" id=1]
 [ext_resource path="res://scenes/archer.tscn" type="PackedScene" id=2]
@@ -11,9 +11,18 @@
 [ext_resource path="res://Flappy Bird Assets/props/border.png" type="Texture" id=9]
 [ext_resource path="res://shaders/pulse_glow.shader" type="Shader" id=10]
 [ext_resource path="res://Fonts/robo.tres" type="DynamicFont" id=11]
+[ext_resource path="res://scenes/MobileControls.tscn" type="PackedScene" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 11.5, 218.997 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 10 )
+shader_param/Smooth = true
+shader_param/width = 20.0
+shader_param/outline_color = Color( 1, 1, 1, 0.1 )
+shader_param/pixel_size = 1
+shader_param/width_speed = 2.0
 
 [sub_resource type="ShaderMaterial" id=3]
 shader = ExtResource( 10 )
@@ -23,15 +32,9 @@ shader_param/outline_color = Color( 1, 1, 1, 0.1 )
 shader_param/pixel_size = 1
 shader_param/width_speed = 2.0
 
-[sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 10 )
-shader_param/Smooth = true
-shader_param/width = 20.0
-shader_param/outline_color = Color( 1, 1, 1, 0.1 )
-shader_param/pixel_size = 1
-shader_param/width_speed = 2.0
-
 [node name="main" type="Node2D"]
+position = Vector2( 22, 0 )
+scale = Vector2( 0.95, 1 )
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -88,7 +91,7 @@ collision_mask = 4
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="left_bar"]
-material = SubResource( 3 )
+material = SubResource( 2 )
 texture = ExtResource( 8 )
 offset = Vector2( 0, -2 )
 
@@ -101,7 +104,7 @@ collision_mask = 4
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="right_bar"]
-material = SubResource( 5 )
+material = SubResource( 3 )
 texture = ExtResource( 8 )
 offset = Vector2( 0, -2 )
 flip_h = true
@@ -121,8 +124,14 @@ build_mode = 1
 polygon = PoolVector2Array( -393.92, -218.013, 396.625, -220.134, 395.211, 219.363, -393.868, 222.194, -394.811, 215.587, 390.492, 214.643, 390.492, -214.819, -388.204, -212.932, -389.148, 212.756, -396.699, 211.812 )
 
 [node name="invi_border" type="StaticBody2D" parent="."]
+visible = false
 collision_layer = 4
 collision_mask = 4
 
 [node name="collider" type="CollisionPolygon2D" parent="invi_border"]
 polygon = PoolVector2Array( 803.968, -5.27611, 802.553, 451.515, -4.96271, 454.343, -4.96271, 471.314, 826.595, 464.243, 819.524, -34.9746, -85.5729, -29.3177, -79.916, 474.142, -13.448, 474.142, -13.448, -8.10454 )
+
+[node name="MobileControls" parent="." instance=ExtResource( 12 )]
+[connection signal="jump" from="MobileControls" to="." method="_on_MobileControls_jump"]
+[connection signal="left_swipe" from="MobileControls" to="." method="_on_MobileControls_left_swipe"]
+[connection signal="right_swipe" from="MobileControls" to="." method="_on_MobileControls_right_swipe"]
