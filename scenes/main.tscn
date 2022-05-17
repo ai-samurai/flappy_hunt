@@ -39,19 +39,18 @@ script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 modulate = Color( 1, 1, 0.866667, 0.937255 )
-scale = Vector2( 0.18, 0.15 )
+scale = Vector2( 0.205592, 0.15 )
 z_index = -1
 texture = ExtResource( 1 )
 centered = false
 
 [node name="bird" parent="." instance=ExtResource( 4 )]
-scale = Vector2( 1.5, 1.5 )
 
 [node name="archer" parent="." instance=ExtResource( 2 )]
-scale = Vector2( 2, 2 )
+scale = Vector2( 1.5, 1.5 )
 
 [node name="archer2" parent="." instance=ExtResource( 2 )]
-scale = Vector2( 2, 2 )
+scale = Vector2( 1.5, 1.5 )
 
 [node name="Label" type="Label" parent="."]
 modulate = Color( 0, 0, 0, 0.47451 )
@@ -62,6 +61,19 @@ margin_bottom = 40.0
 custom_fonts/font = ExtResource( 11 )
 text = "Score: 0"
 script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="boostLabel" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0.454902 )
+margin_left = 741.546
+margin_top = 17.0226
+margin_right = 853.546
+margin_bottom = 50.0226
+custom_fonts/font = ExtResource( 11 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Boosts: "
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -96,7 +108,7 @@ texture = ExtResource( 8 )
 offset = Vector2( 0, -2 )
 
 [node name="right_bar" type="StaticBody2D" parent="."]
-position = Vector2( 770, 230 )
+position = Vector2( 895, 230 )
 collision_layer = 4
 collision_mask = 4
 
@@ -110,6 +122,7 @@ offset = Vector2( 0, -2 )
 flip_h = true
 
 [node name="border" type="StaticBody2D" parent="."]
+scale = Vector2( 1.155, 1 )
 input_pickable = true
 collision_layer = 4
 collision_mask = 4
@@ -129,7 +142,7 @@ collision_layer = 4
 collision_mask = 4
 
 [node name="collider" type="CollisionPolygon2D" parent="invi_border"]
-polygon = PoolVector2Array( 803.968, -5.27611, 802.553, 451.515, -4.96271, 454.343, -4.96271, 471.314, 826.595, 464.243, 819.524, -34.9746, -85.5729, -29.3177, -79.916, 474.142, -13.448, 474.142, -13.448, -8.10454 )
+polygon = PoolVector2Array( 923.949, 0.472572, 924.999, 449.529, 0.458487, 449.081, 1.57371, 467.622, 933.024, 466.047, 935.676, -10.2028, -85.5729, -29.3177, -76.492, 465.503, -2.88719, 467.622, -0.0213699, 0.757854 )
 
 [node name="MobileControls" parent="." instance=ExtResource( 12 )]
 [connection signal="jump" from="MobileControls" to="." method="_on_MobileControls_jump"]

@@ -77,14 +77,14 @@ func on_shoot_animation_cooldown():
 	returns: None
 	"""
 	# emitted to signal that arrow has been fired
-	emit_signal("shot_fired", self)
+	#emit_signal("shot_fired", self)
 	# change the shoot_interval timer to random value between min and max. This
 	# ensured that arrows are fired at random intervals
 	shoot_interval_cooldown.wait_time = rng.randf_range(1, 2)
 	# change animation to "walk" after arrow has been fired
 	$AnimatedSprite.animation = "walk"
 
-func _process(delta):
+func _physics_process(delta):
 	"""
 	Called every frame
 	input: 'delta' (elapsed time since the previous frame)

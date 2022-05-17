@@ -34,16 +34,16 @@ func _end_detection(position: Vector2) -> void:
 	var direction: Vector2 = (position - swipe_start_position).normalized()
 	# Swipe angle is too steep
 	
-	if direction.y < -0.5:
+	if abs(direction.x) < 0.1:
 		emit_signal("jump", swipe_start_position)
 		return
 	emit_swipe_signal(direction)
 
 # determine swipe is left or right and emit signal
 func emit_swipe_signal(direction):
-	if direction.x < 0:
+	if direction.x < -0.1:
 		emit_signal("left_swipe", swipe_start_position)
-	elif direction.x > 0:
+	elif direction.x > 0.1:
 		emit_signal("right_swipe", swipe_start_position)
 	else: pass	
 	

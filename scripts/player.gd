@@ -1,18 +1,20 @@
 extends KinematicBody2D
 
 
-export var speed = 200
-var default_speed = 200
+export var speed = 3
+var default_speed = 3
+var jump = false
 var screen_size
 var velocity = Vector2()
 var dir = 1
 var jump_cooldown
 var bounce_cooldown
 var allow_jump = true
-var gravity = 10
+var gravity = 0.1
+var default_gravity = 0.1
 var global
 var selected = false
-var remaining_boosts = 1
+var remaining_boosts = 2
 var main
 var last_collided_bar = "left_bar"
 
@@ -46,32 +48,37 @@ func on_bounce_cooldown_complete():
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	if self.position.x > screen_size.x: 
-		dir = -1
-		remaining_boosts = 1
-	elif self.position.x < 0: 
-		dir = 1
-		remaining_boosts = 1
-	else: pass
-	
-	if dir == 1: $AnimatedSprite.animation = "fly_right"
-	else: $AnimatedSprite.animation = "fly_left"
-	if Input.is_action_pressed("ui_select"):
-		jump()
-	if Input.is_action_just_pressed("ui_left"):
-		left_move()
-	if Input.is_action_just_pressed("ui_right"):
-		right_move()
+#func _process(delta):
+##	if self.position.x > screen_size.x: 
+##		dir = -1
+##		remaining_boosts = 1
+##	elif self.position.x < 0: 
+##		dir = 1
+##		remaining_boosts = 1
+##	else: pass
+#
+#	if dir == 1: $AnimatedSprite.animation = "fly_right"
+#	else: $AnimatedSprite.animation = "fly_left"
+#	if Input.is_action_pressed("ui_select"):
+#		pass
+#	if Input.is_action_just_pressed("ui_left"):
+#		pass
+#	if Input.is_action_just_pressed("ui_right"):
+#		pass
 
 func _physics_process(delta):
 	if speed > default_speed:
-		speed -= 10
-		velocity.y = 0
-	else: velocity.y += gravity
+		speed -= 0.15
+	else: 
+		velocity.y += gravity
+	if jump == true:
+		jump = false
+		velocity.y = -5
+		speed = default_speed
+	
 	velocity.x = dir * speed
 	
-	var collision = move_and_collide(velocity * delta)
+	var collision = move_and_collide(velocity)
 	if collision:
 		if not "bar" in collision.collider.name and not "border" in collision.collider.name: 
 		#dir = -1 * dir
@@ -81,7 +88,8 @@ func _physics_process(delta):
 				if last_collided_bar != collision.collider.name:
 					last_collided_bar = collision.collider.name
 					increase_score()
-					remaining_boosts = 1
+					if remaining_boosts < 4:
+						remaining_boosts += 1
 			dir = -1 * dir
 		if "border" in collision.collider.name:
 			main.get_node("border/collider").disabled = true
@@ -102,21 +110,24 @@ func _input(event):
 
 func left_move():
 	if dir == -1 and remaining_boosts > 0:
-		remaining_boosts -= 1
-		speed = default_speed*3
+		boost()
 	dir = -1
 
 func right_move():
 	if dir == 1 and remaining_boosts > 0:
-		remaining_boosts -= 1
-		speed = default_speed*3
+		boost()
 	dir = 1
 
 func jump():
 	if allow_jump == true:
 		allow_jump = false
+		jump = true
 		jump_cooldown.start()
-		velocity.y = -500
 
 func increase_score(x = 1):
 	global.score += x
+
+func boost():
+	remaining_boosts -= 1
+	speed = default_speed * 3
+	velocity.y = 0

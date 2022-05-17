@@ -2,9 +2,9 @@ extends KinematicBody2D
 
 
 var screen_size
-var start_speed = 6 # orignal = 11
-var acc = 3 # original = 8
-var min_speed = 4
+var start_speed = 4 # orignal = 11
+var acc = 1.25 # original = 8
+var min_speed = 2
 var speed
 var dir = 1
 var x_speed = 0
@@ -23,9 +23,10 @@ func _ready():
 	$AnimateSprite.animation = "move"
 	$AnimateSprite.play()
 	speed = start_speed
+	acc = start_speed/3.0
 
 
-func _process(delta):
+func _physics_process(delta):
 	"""
 	Called every frame. 'delta' is the elapsed time since the previous frame.
 	returns: None
