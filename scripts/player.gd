@@ -3,6 +3,8 @@ extends KinematicBody2D
 
 export var speed = 3
 var default_speed = 3
+var max_speed
+var boost_multiplier = 3
 var jump = false
 var screen_size
 var velocity = Vector2()
@@ -23,7 +25,8 @@ func _ready():
 	global = get_tree().root.get_child(0)
 	main = get_parent()
 	screen_size = get_viewport_rect().size
-	$AnimatedSprite.play()
+	#$AnimatedSprite.play()
+	max_speed = default_speed * boost_multiplier
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")
 	bounce_cooldown = add_timer("bounce_cooldown", 0.1, "on_bounce_cooldown_complete")
 
@@ -67,6 +70,8 @@ func on_bounce_cooldown_complete():
 #		pass
 
 func _physics_process(delta):
+	if speed > max_speed:
+		speed = max_speed
 	if speed > default_speed:
 		speed -= 0.15
 	else: 
@@ -75,7 +80,6 @@ func _physics_process(delta):
 		jump = false
 		velocity.y = -5
 		speed = default_speed
-	
 	velocity.x = dir * speed
 	
 	var collision = move_and_collide(velocity)
@@ -88,7 +92,7 @@ func _physics_process(delta):
 				if last_collided_bar != collision.collider.name:
 					last_collided_bar = collision.collider.name
 					increase_score()
-					if remaining_boosts < 4:
+					if remaining_boosts < 5: # maximum boosts allowed
 						remaining_boosts += 1
 			dir = -1 * dir
 		if "border" in collision.collider.name:
@@ -129,5 +133,5 @@ func increase_score(x = 1):
 
 func boost():
 	remaining_boosts -= 1
-	speed = default_speed * 3
+	speed = max_speed
 	velocity.y = 0

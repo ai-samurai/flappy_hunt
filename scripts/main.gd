@@ -48,9 +48,9 @@ func _game_over():
 	get_tree().paused = not get_tree().paused
 
 func _process(delta):
+	boost_display($bird.remaining_boosts)
 	fps = Engine.get_frames_per_second()
 	$Label.text = "Score: " + str(global.score)
-	$boostLabel.text = "Boosts: " + str($bird.remaining_boosts)
 	if get_tree().paused != true:
 		$pause.get_node("pause_scene").visible = false
 	time += delta 
@@ -77,3 +77,10 @@ func _on_MobileControls_right_swipe(start_position):
 
 func _on_MobileControls_jump(start_position):
 	$bird.jump()
+
+func boost_display(n):
+	for sprite in $boost_bar.get_children():
+		if int(sprite.name) > n:
+			sprite.visible = false
+		if int(sprite.name) <= n:
+			sprite.visible = true
