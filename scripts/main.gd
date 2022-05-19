@@ -14,10 +14,10 @@ var fps
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().paused = false
-	$left_bar.get_node("Sprite").set_material(null)
-	$right_bar.get_node("Sprite").set_material(null)
+	#$left_bar.get_node("Sprite").set_material(null)
+	#$right_bar.get_node("Sprite").set_material(null)
 	if test == true:
-		$bird.gravity = 0
+		pass
 	global = get_tree().root.get_child(0)
 	screen_size = get_viewport_rect().size
 	global.screen_size = screen_size
@@ -50,7 +50,7 @@ func _game_over():
 func _process(delta):
 	boost_display($bird.remaining_boosts)
 	fps = Engine.get_frames_per_second()
-	$Label.text = "Score: " + str(global.score)
+	$Label.text = "S: " + str(global.score)
 	if get_tree().paused != true:
 		$pause.get_node("pause_scene").visible = false
 	time += delta 
@@ -79,8 +79,8 @@ func _on_MobileControls_jump(start_position):
 	$bird.jump()
 
 func boost_display(n):
-	for sprite in $boost_bar.get_children():
-		if int(sprite.name) > n:
-			sprite.visible = false
-		if int(sprite.name) <= n:
-			sprite.visible = true
+	for count in $boosts.get_children():
+		if int(count.name) > n:
+			count.visible = false
+		if int(count.name) <= n:
+			count.visible = true

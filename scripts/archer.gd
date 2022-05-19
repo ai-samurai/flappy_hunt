@@ -80,7 +80,7 @@ func on_shoot_animation_cooldown():
 	emit_signal("shot_fired", self)
 	# change the shoot_interval timer to random value between min and max. This
 	# ensured that arrows are fired at random intervals
-	shoot_interval_cooldown.wait_time = rng.randf_range(1, 2)
+	shoot_interval_cooldown.wait_time = rng.randf_range(1, 3)
 	# change animation to "walk" after arrow has been fired
 	$AnimatedSprite.animation = "walk"
 

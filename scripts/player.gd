@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
 
-export var speed = 3
-var default_speed = 3
+var speed
+export var default_speed = 4
 var max_speed
-var boost_multiplier = 3
+export var boost_multiplier = 3
 var jump = false
 var screen_size
 var velocity = Vector2()
@@ -12,8 +12,8 @@ var dir = 1
 var jump_cooldown
 var bounce_cooldown
 var allow_jump = true
-var gravity = 0.1
-var default_gravity = 0.1
+export var gravity = 0.2
+#var default_gravity = 0.2
 var global
 var selected = false
 var remaining_boosts = 2
@@ -27,6 +27,7 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	#$AnimatedSprite.play()
 	max_speed = default_speed * boost_multiplier
+	speed = default_speed
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")
 	bounce_cooldown = add_timer("bounce_cooldown", 0.1, "on_bounce_cooldown_complete")
 
@@ -78,7 +79,7 @@ func _physics_process(delta):
 		velocity.y += gravity
 	if jump == true:
 		jump = false
-		velocity.y = -5
+		velocity.y = -7 
 		speed = default_speed
 	velocity.x = dir * speed
 	

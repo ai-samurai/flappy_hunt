@@ -52,8 +52,7 @@ func y_pos(delta):
 	returns: None
 	"""
 	speed -= acc * delta
-	if get_parent().test != true:
-		self.position.y -= speed
+	self.position.y -= speed
 	
 
 func rotate_arrow(direction):
