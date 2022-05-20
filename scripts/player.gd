@@ -4,13 +4,14 @@ extends KinematicBody2D
 var speed
 export var default_speed = 4
 var max_speed
-export var boost_multiplier = 3
+export var boost_multiplier = 2.0
 var jump = false
 var screen_size
 var velocity = Vector2()
 var dir = 1
 var jump_cooldown
 var bounce_cooldown
+var hit_cooldown
 var allow_jump = true
 export var gravity = 0.2
 #var default_gravity = 0.2
@@ -19,6 +20,7 @@ var selected = false
 var remaining_boosts = 2
 var main
 var last_collided_bar = "left_bar"
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,7 +32,7 @@ func _ready():
 	speed = default_speed
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")
 	bounce_cooldown = add_timer("bounce_cooldown", 0.1, "on_bounce_cooldown_complete")
-
+	hit_cooldown = add_timer("hit_cooldown", 1.2, "on_hit_cooldown_complete")
 
 # add a timer to the main_scene
 func add_timer(timer_name, time, timer_function, one_shot=true):
@@ -42,33 +44,28 @@ func add_timer(timer_name, time, timer_function, one_shot=true):
 	timer.connect("timeout", self, timer_function)
 	return timer
 
-
 func on_jump_cooldown_complete():
 	allow_jump = true
 	
-
 func on_bounce_cooldown_complete():
 	main.get_node("border/collider").disabled = false
 	
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-##	if self.position.x > screen_size.x: 
-##		dir = -1
-##		remaining_boosts = 1
-##	elif self.position.x < 0: 
-##		dir = 1
-##		remaining_boosts = 1
-##	else: pass
-#
-#	if dir == 1: $AnimatedSprite.animation = "fly_right"
-#	else: $AnimatedSprite.animation = "fly_left"
-#	if Input.is_action_pressed("ui_select"):
-#		pass
-#	if Input.is_action_just_pressed("ui_left"):
-#		pass
-#	if Input.is_action_just_pressed("ui_right"):
-#		pass
+func _process(delta):
+#	if self.position.x > screen_size.x: 
+#		dir = -1
+#		remaining_boosts = 1
+#	elif self.position.x < 0: 
+#		dir = 1
+#		remaining_boosts = 1
+#	else: pass
+
+	if Input.is_action_just_pressed("ui_select"):
+		jump()
+	if Input.is_action_just_pressed("ui_left"):
+		left_move()
+	if Input.is_action_just_pressed("ui_right"):
+		right_move()
 
 func _physics_process(delta):
 	if speed > max_speed:
@@ -82,12 +79,12 @@ func _physics_process(delta):
 		velocity.y = -7 
 		speed = default_speed
 	velocity.x = dir * speed
-	
 	var collision = move_and_collide(velocity)
 	if collision:
 		if not "bar" in collision.collider.name and not "border" in collision.collider.name: 
-		#dir = -1 * dir
-			main._game_over()
+			hit()
+			print("collision layer")
+			main.check_game_over()
 		if "bar" in collision.collider.name:
 			if last_collided_bar:
 				if last_collided_bar != collision.collider.name:
@@ -102,7 +99,6 @@ func _physics_process(delta):
 			bounce_cooldown.start()
 	if selected and not collision:
 		global_position = lerp(global_position, get_global_mouse_position(), 25 * delta)
-
 
 func _on_bird_input_event(viewport, event, shape_idx):
 	if Input.is_action_just_pressed("click") and main.test == true:
@@ -136,3 +132,14 @@ func boost():
 	remaining_boosts -= 1
 	speed = max_speed
 	velocity.y = 0
+	
+func hit():
+	set_collision_mask_bit(1, false)
+	set_collision_layer_bit(1, false)
+	hit_cooldown.start()
+
+func on_hit_cooldown_complete():
+	set_collision_mask_bit(1, true)
+	set_collision_layer_bit(1, true)
+	print("active_again")
+	

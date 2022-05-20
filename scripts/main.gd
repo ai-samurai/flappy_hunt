@@ -8,16 +8,16 @@ var time = 0
 var previous_fps_drop_time = 0
 var time_diff = 0
 var global
-var test = false
 var fps
+var symbol_hit_bool = false
+var symbol_hit_timer
+var lives = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().paused = false
-	#$left_bar.get_node("Sprite").set_material(null)
-	#$right_bar.get_node("Sprite").set_material(null)
-	if test == true:
-		pass
+	$"left_glowers/2".status = "bonus"
+	$"left_glowers/2/Sprite".modulate = Color(0, 1, 0)
 	global = get_tree().root.get_child(0)
 	screen_size = get_viewport_rect().size
 	global.screen_size = screen_size
@@ -31,7 +31,6 @@ func _ready():
 	$archer2.position = Vector2(screen_size.x - 110, screen_size.y - 40)
 	$archer2.get_node("Sprite").set_flip_h(true)
 	
-
 func _shot_fired(node):
 	var pos = node.position
 	pos.y -= 30
@@ -41,14 +40,17 @@ func _shot_fired(node):
 	shot.x_speed = node.archer_speed / 2
 	add_child(shot)
 	
-func _game_over():
-	$CanvasLayer.get_node("game_over").update_score_labels()
-	$CanvasLayer.get_node("game_over").res_button.grab_focus()
-	$CanvasLayer.get_node("game_over").visible = not $CanvasLayer.get_node("game_over").visible 
-	get_tree().paused = not get_tree().paused
+func check_game_over():
+	if lives <= 0:	
+		$CanvasLayer.get_node("game_over").update_score_labels()
+		$CanvasLayer.get_node("game_over").res_button.grab_focus()
+		$CanvasLayer.get_node("game_over").visible = not $CanvasLayer.get_node("game_over").visible 
+		get_tree().paused = not get_tree().paused
+	else: lives -= 1
 
 func _process(delta):
 	boost_display($bird.remaining_boosts)
+	lives_display(lives)
 	fps = Engine.get_frames_per_second()
 	$Label.text = "S: " + str(global.score)
 	if get_tree().paused != true:
@@ -66,8 +68,7 @@ func _input(event):
 		$pause.get_node("pause_scene").visible = not $pause.get_node("pause_scene").visible 
 		get_tree().paused = not get_tree().paused
 #	if Input.is_action_just_pressed("ui_cancel"): 
-	if Input.is_mouse_button_pressed(1) and test == true:
-		print(get_global_mouse_position())	
+
 
 func _on_MobileControls_left_swipe(start_postion):
 	$bird.left_move()
@@ -78,9 +79,38 @@ func _on_MobileControls_right_swipe(start_position):
 func _on_MobileControls_jump(start_position):
 	$bird.jump()
 
+# function to control boost display symbols
 func boost_display(n):
 	for count in $boosts.get_children():
 		if int(count.name) > n:
 			count.visible = false
 		if int(count.name) <= n:
 			count.visible = true
+			
+func lives_display(n):
+	for count in $lives.get_children():
+		if int(count.name) > n:
+			count.visible = false
+		if int(count.name) <= n:
+			count.visible = true
+
+# function to control sprite glow color
+func sprite_color(sprite, color):
+	if color == "red":
+		sprite.modulate = Color(1, 0, 0)
+	if color == "green":
+		sprite.modulate = Color(0, 1, 0)
+	if color == "yellow":
+		sprite.modulate = Color(1, 1, 0)
+
+# function to control sprite color change
+#func sprite_color_change(sprite):
+#	if sprite.color == Color(0,1,0):
+#		sprite_color(sprite, "blue")
+
+#func _on_1_hit(area):
+#	if symbol_hit_bool == false:
+#		sprite_color(area.get_node("Sprite"), "yellow")
+#		symbol_hit_bool == true
+
+

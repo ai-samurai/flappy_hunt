@@ -99,11 +99,10 @@ func _physics_process(delta):
 		#self.scale.x = 2
 	pass
 
+
+
 func _on_archer_body_entered(body):
-	"""
-	Called when body enters the collision shape of self (archer in this case)
-	input: body (the node that entered the collision shape)
-	returns: None
-	"""
-	if not "bar" in body.name:
-		main._game_over()
+	if "bird" in body.name:
+		body.hit()
+		main.check_game_over()
+		

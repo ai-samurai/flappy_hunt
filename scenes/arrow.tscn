@@ -34,7 +34,8 @@ animations = [ {
 
 [node name="arrow" type="KinematicBody2D"]
 position = Vector2( 240, 600 )
-collision_layer = 4
+collision_layer = 2147483650
+collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="AnimateSprite" type="AnimatedSprite" parent="."]
