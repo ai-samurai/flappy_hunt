@@ -20,7 +20,7 @@ var selected = false
 var remaining_boosts = 2
 var main
 var last_collided_bar = "left_bar"
-
+var active_bar
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,7 +32,7 @@ func _ready():
 	speed = default_speed
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")
 	bounce_cooldown = add_timer("bounce_cooldown", 0.1, "on_bounce_cooldown_complete")
-	hit_cooldown = add_timer("hit_cooldown", 1.2, "on_hit_cooldown_complete")
+	hit_cooldown = add_timer("hit_cooldown", 0.3, "on_hit_cooldown_complete")
 
 # add a timer to the main_scene
 func add_timer(timer_name, time, timer_function, one_shot=true):
@@ -83,7 +83,6 @@ func _physics_process(delta):
 	if collision:
 		if not "bar" in collision.collider.name and not "border" in collision.collider.name: 
 			hit()
-			print("collision layer")
 			main.check_game_over()
 		if "bar" in collision.collider.name:
 			if last_collided_bar:
@@ -92,6 +91,7 @@ func _physics_process(delta):
 					increase_score()
 					if remaining_boosts < 5: # maximum boosts allowed
 						remaining_boosts += 1
+			main.set_active_bar()
 			dir = -1 * dir
 		if "border" in collision.collider.name:
 			main.get_node("border/collider").disabled = true
@@ -136,10 +136,11 @@ func boost():
 func hit():
 	set_collision_mask_bit(1, false)
 	set_collision_layer_bit(1, false)
+	$Sprite2.modulate = Color(1, 0, 0, 0.5)
 	hit_cooldown.start()
 
 func on_hit_cooldown_complete():
 	set_collision_mask_bit(1, true)
 	set_collision_layer_bit(1, true)
-	print("active_again")
+	$Sprite2.modulate = Color(1, 1, 1, 0.5)
 	

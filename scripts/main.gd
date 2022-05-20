@@ -103,14 +103,14 @@ func sprite_color(sprite, color):
 	if color == "yellow":
 		sprite.modulate = Color(1, 1, 0)
 
-# function to control sprite color change
-#func sprite_color_change(sprite):
-#	if sprite.color == Color(0,1,0):
-#		sprite_color(sprite, "blue")
-
-#func _on_1_hit(area):
-#	if symbol_hit_bool == false:
-#		sprite_color(area.get_node("Sprite"), "yellow")
-#		symbol_hit_bool == true
-
+func set_active_bar():
+	if $bird.last_collided_bar == "left_bar":
+		$"right_bar/bar_glow".visible = true
+		$"left_bar/bar_glow".visible = false
+		#for child in $left_glowers.get_children():
+			
+	if $bird.last_collided_bar == "right_bar":
+		$"left_bar/bar_glow".visible = true
+		$"right_bar/bar_glow".visible = false
+	
 
