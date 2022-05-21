@@ -22,6 +22,7 @@ func _ready():
 	screen_size = get_viewport_rect().size
 	global.screen_size = screen_size
 	global.score = 0
+	$bird.position = Vector2(60, 60)
 	$archer.connect("shot_fired" , self, "_shot_fired")
 	$archer2.connect("shot_fired", self, "_shot_fired")
 	$archer.connect("game_over" , self, "_on_game_over")

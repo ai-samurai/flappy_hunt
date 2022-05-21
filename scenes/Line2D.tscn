@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scenes/Line2D.gd" type="Script" id=1]
+
+[sub_resource type="Curve" id=2]
+min_value = 5.0
+max_value = 10.0
+_data = [ Vector2( 0.181319, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.620879, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=1]
+colors = PoolColorArray( 1, 1, 1, 0.0862745, 1, 1, 1, 0.596078 )
+
+[node name="Line2D" type="Line2D"]
+width_curve = SubResource( 2 )
+default_color = Color( 1, 1, 1, 1 )
+gradient = SubResource( 1 )
+script = ExtResource( 1 )
