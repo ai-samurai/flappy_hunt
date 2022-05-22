@@ -9,7 +9,6 @@ func _on_1_body_entered(body):
 		#status = "sleep"
 		if self.get_parent().get_parent().lives < 4:
 			self.get_parent().get_parent().lives += 1	
-			print(self.get_parent().get_parent().lives)	
 	if status == "caution":
 		$Sprite.modulate = Color(1, 0, 0) # red
 		status = "danger"

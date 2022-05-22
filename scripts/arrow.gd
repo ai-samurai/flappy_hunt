@@ -68,6 +68,7 @@ func rotate_arrow(direction):
 	if direction > 0:
 		# if statement to decide when arrow should start rotating
 		if speed <= 3 and self.rotation_degrees <= 180: 
+			#$thrust.visible = false
 			# self.rotation_degrees + offset <= 180 check is necessary 
 			# otherwise arrow will rotate past 180 in that last offset addition
 			if self.rotation_degrees + offset <= 180:
@@ -77,6 +78,7 @@ func rotate_arrow(direction):
 		# -ve 180 degrees since arrow is rotating counter-clockwise if this 
 		# part is reached in the if-else construct
 		if speed <= 3 and self.rotation_degrees >= -180: 
+			#$thrust.visible = false
 			if self.rotation_degrees + offset >= -180:
 				self.rotation_degrees += offset
 			else: self.rotation_degrees = -180
