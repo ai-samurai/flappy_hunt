@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scenes/Line2D.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/player.gd" type="Script" id=3]
@@ -8,25 +8,33 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 5.5
 
-[sub_resource type="Shader" id=2]
-code = "shader_type canvas_item;
-
-
-void vertex(){
-	//VERTEX += vec2(cos(TIME)*10.0, sin(TIME)*10.0);
+[sub_resource type="Animation" id=2]
+resource_name = "Hit"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 0.0980732, 0.0980731, 0.101532, 0.101532 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0.196078 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0.196078 ), Color( 0, 0, 0, 1 ) ]
 }
-
-void fragment(){
-	float radius = pow((pow((UV-vec2(0.5,0.5))[0], 2.0)) + (pow((UV-vec2(0.5,0.5))[1], 2.0)), 0.5);
-	COLOR = texture(TEXTURE, UV);
-	COLOR.r = 0.1; //2.0 * pow(radius, 1.0); // *((UV-vec2(0.5,0.5))[0]) + 6.0*((UV-vec2(0.5,0.5))[1])*((UV-vec2(0.5,0.5))[1]);
-	COLOR.g = 0.1; //0.20 * cos(radius); //UV[0]; //+UV[1]*-1.0*1.0;
-	COLOR.b = 0.1; //0.25 * cos(radius); //UV[0]; //+UV[1]*-1.0*1.0;
-}"
-custom_defines = ""
-
-[sub_resource type="ShaderMaterial" id=3]
-shader = SubResource( 2 )
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 0.101532, 0.101531, 0.0980732, 0.0915055, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.568627 ), Color( 1, 0, 0, 0.568627 ), Color( 1, 0, 0, 0.27451 ), Color( 1, 0, 0, 0.568627 ), Color( 1, 0, 0, 0.27451 ), Color( 1, 1, 1, 0.568627 ) ]
+}
 
 [node name="bird" type="KinematicBody2D"]
 input_pickable = true
@@ -40,12 +48,12 @@ scale = Vector2( 1, 0.9 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 3 )
+modulate = Color( 0, 0, 0, 1 )
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0.482353 )
+modulate = Color( 1, 1, 1, 0.568627 )
 position = Vector2( -0.017852, -0.017852 )
 scale = Vector2( 0.165948, 0.165948 )
 z_index = -1
@@ -53,4 +61,7 @@ texture = ExtResource( 5 )
 
 [node name="Line2D" parent="." instance=ExtResource( 1 )]
 z_index = -1
+
+[node name="HitEffect" type="AnimationPlayer" parent="."]
+anims/Hit = SubResource( 2 )
 [connection signal="input_event" from="." to="." method="_on_bird_input_event"]

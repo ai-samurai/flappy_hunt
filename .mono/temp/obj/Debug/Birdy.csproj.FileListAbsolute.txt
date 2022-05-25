@@ -1,6 +1,6 @@
 /home/tanmay/GAME DEV/Godot/Birdy/.mono/temp/bin/Debug/Birdy.dll
 /home/tanmay/GAME DEV/Godot/Birdy/.mono/temp/bin/Debug/Birdy.pdb
-/home/tanmay/GAME DEV/Godot/Birdy/.mono/temp/obj/Debug/Birdy.csprojAssemblyReference.cache
 /home/tanmay/GAME DEV/Godot/Birdy/.mono/temp/obj/Debug/Birdy.csproj.CoreCompileInputs.cache
 /home/tanmay/GAME DEV/Godot/Birdy/.mono/temp/obj/Debug/Birdy.dll
 /home/tanmay/GAME DEV/Godot/Birdy/.mono/temp/obj/Debug/Birdy.pdb
+/home/tanmay/GAME DEV/Godot/Birdy/.mono/temp/obj/Debug/Birdy.csproj.AssemblyReference.cache

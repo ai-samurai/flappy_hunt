@@ -99,8 +99,6 @@ func _physics_process(delta):
 		#self.scale.x = 2
 	pass
 
-
-
 func _on_archer_body_entered(body):
 	if "bird" in body.name:
 		body.hit()
