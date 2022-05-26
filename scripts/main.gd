@@ -16,8 +16,6 @@ var lives = 2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	get_tree().paused = false
-	$"left_glowers/2".status = "bonus"
-	$"left_glowers/2/Sprite".modulate = Color(0, 1, 0)
 	global = get_tree().root.get_child(0)
 	screen_size = get_viewport_rect().size
 	global.screen_size = screen_size
