@@ -18,6 +18,7 @@ export var gravity = 0.2
 var global
 var selected = false
 var remaining_boosts = 2
+var max_boosts = 5
 var main
 var last_collided_bar = "left_bar"
 var active_bar
@@ -96,8 +97,8 @@ func _physics_process(delta):
 					last_collided_bar = collision.collider.name
 					increase_score()
 					activate_glower()
-					if remaining_boosts < 5: # maximum boosts allowed
-						remaining_boosts += 1
+					if remaining_boosts < max_boosts: # maximum boosts allowed
+						increase_boost(1)
 			main.set_active_bar()
 			dir = -1 * dir
 		if "border" in groups:
@@ -135,6 +136,11 @@ func jump():
 func increase_score(x = 1):
 	global.score += x
 
+func increase_boost(x = 1):
+	if x == max_boosts:
+		remaining_boosts = max_boosts
+	elif remaining_boosts < max_boosts:
+		remaining_boosts += x
 # change speed to max speed and reduce boosts
 func boost():
 	remaining_boosts -= 1
@@ -175,8 +181,8 @@ func glower_collision(glower):
 
 func activate_glower():
 	var num = rng.randi_range(1, 7)
-	var statnum = rng.randi_range(0,2)
-	var status = ["bonus", "life", "danger"][statnum]
+	var statnum = rng.randi_range(0,3)
+	var status = ["bonus", "life", "danger", "boost"][statnum]
 	
 		
 	if "left_bar" in last_collided_bar:
