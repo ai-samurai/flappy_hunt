@@ -12,6 +12,8 @@ var fps
 var symbol_hit_bool = false
 var symbol_hit_timer
 var lives = 2
+var max_lives = 5
+var archer_2_instance
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,14 +24,25 @@ func _ready():
 	global.score = 0
 	$bird.position = Vector2(60, 60)
 	$archer.connect("shot_fired" , self, "_shot_fired")
-	$archer2.connect("shot_fired", self, "_shot_fired")
 	$archer.connect("game_over" , self, "_on_game_over")
+	$archer2.get_node("Sprite").set_flip_h(true)
+	$archer2.connect("shot_fired", self, "_shot_fired")
 	get_signal_list()
 	# set archer positions
-	$archer.position = Vector2(50, screen_size.y - 40)
-	$archer2.position = Vector2(screen_size.x - 110, screen_size.y - 40)
-	$archer2.get_node("Sprite").set_flip_h(true)
+	$archer.position = Vector2(50, $menu.position.y)
+	$archer2.position = Vector2(screen_size.x - 110, $menu.position.y)
+	archer_2_instance = $archer2
+	remove_child($archer2)
 	
+func add_archer():
+	archer_2_instance.name = "archer2"
+	add_child(archer_2_instance)
+	
+func remove_archer():
+	for i in self.get_children():
+		if "archer2" in i.name:
+			remove_child(i)
+
 func _shot_fired(node):
 	var pos = node.position
 	pos.y -= 30

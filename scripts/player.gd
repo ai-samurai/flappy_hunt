@@ -4,7 +4,7 @@ extends KinematicBody2D
 var speed
 export var default_speed = 4
 var max_speed
-export var boost_multiplier = 3.0
+export var boost_multiplier = 2.5
 var jump = false
 var screen_size
 var velocity = Vector2()
@@ -97,7 +97,7 @@ func _physics_process(delta):
 					last_collided_bar = collision.collider.name
 					increase_score()
 					activate_glower()
-					if remaining_boosts < max_boosts: # maximum boosts allowed
+					if remaining_boosts < 2: # max boosts allowed from bar collision
 						increase_boost(1)
 			main.set_active_bar()
 			dir = -1 * dir
@@ -181,10 +181,8 @@ func glower_collision(glower):
 
 func activate_glower():
 	var num = rng.randi_range(1, 7)
-	var statnum = rng.randi_range(0,3)
-	var status = ["bonus", "life", "danger", "boost"][statnum]
-	
-		
+	var statnum = rng.randi_range(0,6)
+	var status = ["bonus", "bonus", "life", "life", "danger", "boost", "save", "save"][statnum]		
 	if "left_bar" in last_collided_bar:
 		if status == "danger":
 			change_all_glowers("right_glowers")

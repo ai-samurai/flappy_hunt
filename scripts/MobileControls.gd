@@ -34,7 +34,7 @@ func _end_detection(position: Vector2) -> void:
 	var direction: Vector2 = (position - swipe_start_position).normalized()
 	# Swipe angle is too steep
 	
-	if abs(direction.x) < 0.1:
+	if abs(direction.x) < 0.2:
 		emit_signal("jump", swipe_start_position)
 		return
 	emit_swipe_signal(direction)
