@@ -14,16 +14,22 @@ func _ready():
 		
 func change_status(change):
 	status = change
-	timer.start()
-	print("in change status f/n")
+	if status == "danger":
+		timer.set_wait_time(5)
+		timer.start()
+	else: 
+		timer.set_wait_time(3)
+		timer.start()
 	if status == "normal":
 		$Sprite.modulate = Color(1, 1, 1)
 	if status == "life":
-		$Sprite.modulate = Color(0, 1, 0)
+		$Sprite.modulate = Color(0, 1, 0) # green
 	if status == "danger":
-		$Sprite.modulate = Color(1, 0, 0)
+		$Sprite.modulate = Color(1, 0, 0) # red
 	if status == "bonus":
-		$Sprite.modulate = Color(0, 1, 1)
+		$Sprite.modulate = Color(0, 1, 1) # blue
+	if status == "caution":
+		$Sprite.modulate = Color(1, 1, 0) # yellow
 	
 
 func _on_1_body_entered(body):
@@ -41,7 +47,6 @@ func _on_1_body_entered(body):
 		self.get_parent().get_parent().check_game_over()
 		
 func on_timer_cooldown():
-	print("in timer f/n")
 	if status != "normal":
 		status = "normal"
 		$Sprite.modulate = Color(1, 1, 1)

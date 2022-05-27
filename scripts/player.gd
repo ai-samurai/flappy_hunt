@@ -175,7 +175,19 @@ func glower_collision(glower):
 
 func activate_glower():
 	var num = rng.randi_range(1, 7)
+	var statnum = rng.randi_range(0,2)
+	var status = ["bonus", "life", "danger"][statnum]
+	
+		
 	if "left_bar" in last_collided_bar:
-		main.get_node("right_glowers/" + str(num)).change_status("bonus")
+		if status == "danger":
+			change_all_glowers("right_glowers")
+		else: main.get_node("right_glowers/" + str(num)).change_status(status)
 	if "right_bar" in last_collided_bar:
-		main.get_node("left_glowers/" + str(num)).change_status("bonus")
+		if status == "danger":
+			change_all_glowers("left_glowers")
+		main.get_node("left_glowers/" + str(num)).change_status(status)
+
+func change_all_glowers(glowers):
+	for i in main.get_node(glowers).get_children():
+		i.change_status("danger") 
