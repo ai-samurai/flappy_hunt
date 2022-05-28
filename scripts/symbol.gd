@@ -14,7 +14,7 @@ func _ready():
 	status_array = ["bonus", "bonus", "life", "life", "danger", "boost", "multi", "multi"]
 	main = get_parent().get_parent()
 	glow_timer = add_timer("glow_timer", power_glower_time, "on_glow_timer_cooldown")
-	archer_timer = add_timer("archer_timer", 5, "on_archer_timer_cooldown")
+	archer_timer = add_timer("archer_timer", 10, "on_archer_timer_cooldown")
 	
 	
 func add_timer(timer_name, time, function, one_shot = true):
@@ -59,7 +59,7 @@ func _on_1_body_entered(body):
 	if status == "bonus":
 		status = "normal"
 		$Sprite.modulate = Color(1, 1, 1)
-		body.increase_score(10) 
+		body.increase_score(10, true) 
 	if status == "boost":
 		status = "normal"
 		$Sprite.modulate = Color(1, 1, 1)

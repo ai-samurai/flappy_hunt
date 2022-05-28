@@ -1,6 +1,7 @@
 extends Node2D
 
 onready var arrow = load("res://scenes/arrow.tscn")
+onready var ScorePop = load("res://scenes/ScorePop.tscn")
 
 var screen_size
 var score = 0
@@ -14,6 +15,7 @@ var symbol_hit_timer
 var lives = 2
 var max_lives = 5
 var archer_2_instance
+var bonus_pop
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -34,7 +36,8 @@ func _ready():
 	archer_2_instance = $archer2
 	remove_child($archer2)
 	#set_archer_properties($archer, 3)
-	
+	$PopTimer.connect("timeout", self, "on_PopTimer_cooldown")
+
 func add_archer():
 	archer_2_instance.name = "archer2"
 	add_child(archer_2_instance)
@@ -128,3 +131,17 @@ func set_active_bar():
 	
 func set_archer_properties(archer, shoot_interval = 2):
 	archer.shoot_interval = shoot_interval
+
+func score_pop(pos, value=1, bonus=false):
+	print(bonus)
+	var pop = ScorePop.instance()
+	pop.position = pos
+	pop.get_node("Label").text = "+" + str(value)
+	if bonus == true:
+		bonus_pop = pop
+		$PopTimer.start()
+	else: add_child(pop)
+
+func on_PopTimer_cooldown():
+	print("in timer f/n")
+	add_child(bonus_pop)

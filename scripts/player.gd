@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 
 var speed
-export var default_speed = 4
+export var default_speed = 3.5
 var max_speed
 export var boost_multiplier = 2.5
 var jump = false
@@ -14,7 +14,7 @@ var bounce_cooldown
 var hit_cooldown
 var mode_cooldown
 var allow_jump = true
-export var gravity = 0.2
+export var gravity = 0.10
 #var default_gravity = 0.2
 var global
 var selected = false
@@ -37,7 +37,7 @@ func _ready():
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")
 	bounce_cooldown = add_timer("bounce_cooldown", 0.1, "on_bounce_cooldown_complete")
 	hit_cooldown = add_timer("hit_cooldown", 0.6, "on_hit_cooldown_complete")
-	mode_cooldown = add_timer("mode_timer", 5, "on_mode_cooldown_complete")
+	mode_cooldown = add_timer("mode_timer", 10, "on_mode_cooldown_complete")
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 
@@ -85,7 +85,7 @@ func _physics_process(delta):
 		velocity.y += gravity
 	if jump == true:
 		jump = false
-		velocity.y = -7 
+		velocity.y = -5 * 10 * gravity
 		speed = default_speed
 	velocity.x = dir * speed
 	var collision = move_and_collide(velocity)
@@ -136,12 +136,14 @@ func jump():
 		jump = true
 		jump_cooldown.start()
 
-func increase_score(x = 1):
+func increase_score(x = 1, bonus = false):
 	if mode == "normal":
-		global.score += x
+		x = x
 	if mode == "hard":
-		global.score += 3 * x
-
+		x = 3 * x
+	global.score += x
+	main.score_pop(self.position, x, bonus)
+	
 func increase_boost(x = 1):
 	if x == max_boosts:
 		remaining_boosts = max_boosts

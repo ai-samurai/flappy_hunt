@@ -82,10 +82,10 @@ texture = ExtResource( 17 )
 
 [node name="Label" type="Label" parent="."]
 modulate = Color( 0, 0, 0, 1 )
-margin_left = 54.9995
-margin_top = 12.7109
-margin_right = 126.999
-margin_bottom = 40.7109
+margin_left = 55.0
+margin_top = 13.0
+margin_right = 176.0
+margin_bottom = 35.0
 rect_clip_content = true
 custom_fonts/font = ExtResource( 11 )
 text = "Score: "
@@ -658,6 +658,10 @@ scale = Vector2( 3.10699, 1.91303 )
 normal = ExtResource( 21 )
 action = "ui_right"
 script = ExtResource( 22 )
+
+[node name="PopTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
 [connection signal="body_entered" from="left_glowers/2" to="left_glowers/2" method="_on_1_body_entered"]
 [connection signal="body_entered" from="left_glowers/3" to="left_glowers/3" method="_on_1_body_entered"]
 [connection signal="body_entered" from="left_glowers/4" to="left_glowers/4" method="_on_1_body_entered"]
