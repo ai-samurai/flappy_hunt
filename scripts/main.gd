@@ -33,6 +33,7 @@ func _ready():
 	$archer2.position = Vector2(screen_size.x - 110, $menu.position.y)
 	archer_2_instance = $archer2
 	remove_child($archer2)
+	#set_archer_properties($archer, 3)
 	
 func add_archer():
 	archer_2_instance.name = "archer2"
@@ -125,4 +126,5 @@ func set_active_bar():
 		$"left_bar/bar_glow".visible = true
 		$"right_bar/bar_glow".visible = false
 	
-
+func set_archer_properties(archer, shoot_interval = 2):
+	archer.shoot_interval = shoot_interval

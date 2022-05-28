@@ -5,6 +5,8 @@ var dir = 1 # direction of archer movement, 1: right, -1: left
 var screen_size
 var shoot_animation_cooldown # amount of time for ending shooting animation
 var shoot_interval = 2 # time interval between successive shots # orignal = 1
+var shoot_interval_min = 2
+var shoot_interval_max = 4
 var shoot_interval_cooldown # timer for shoot interval 
 var archer_pos_offset
 var rng
@@ -80,7 +82,7 @@ func on_shoot_animation_cooldown():
 	emit_signal("shot_fired", self)
 	# change the shoot_interval timer to random value between min and max. This
 	# ensured that arrows are fired at random intervals
-	shoot_interval_cooldown.wait_time = rng.randf_range(1, 3)
+	shoot_interval_cooldown.wait_time = rng.randf_range(shoot_interval_min, shoot_interval_max)
 	# change animation to "walk" after arrow has been fired
 	$AnimatedSprite.animation = "walk"
 

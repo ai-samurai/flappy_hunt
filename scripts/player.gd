@@ -12,6 +12,7 @@ var dir = 1
 var jump_cooldown
 var bounce_cooldown
 var hit_cooldown
+var mode_cooldown
 var allow_jump = true
 export var gravity = 0.2
 #var default_gravity = 0.2
@@ -23,6 +24,7 @@ var main
 var last_collided_bar = "left_bar"
 var active_bar
 var rng
+var mode = "normal"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -35,6 +37,7 @@ func _ready():
 	jump_cooldown = add_timer("jump_cooldown", 0.2, "on_jump_cooldown_complete")
 	bounce_cooldown = add_timer("bounce_cooldown", 0.1, "on_bounce_cooldown_complete")
 	hit_cooldown = add_timer("hit_cooldown", 0.6, "on_hit_cooldown_complete")
+	mode_cooldown = add_timer("mode_timer", 5, "on_mode_cooldown_complete")
 	rng = RandomNumberGenerator.new()
 	rng.randomize()
 
@@ -134,7 +137,10 @@ func jump():
 		jump_cooldown.start()
 
 func increase_score(x = 1):
-	global.score += x
+	if mode == "normal":
+		global.score += x
+	if mode == "hard":
+		global.score += 3 * x
 
 func increase_boost(x = 1):
 	if x == max_boosts:
@@ -181,8 +187,9 @@ func glower_collision(glower):
 
 func activate_glower():
 	var num = rng.randi_range(1, 7)
-	var statnum = rng.randi_range(0,6)
-	var status = ["bonus", "bonus", "life", "life", "danger", "boost", "save", "save"][statnum]		
+	var status_array = main.get_node("left_glowers/1").status_array
+	var statnum = rng.randi_range(0,status_array.size()-1)
+	var status = status_array[statnum]		
 	if "left_bar" in last_collided_bar:
 		if status == "danger":
 			change_all_glowers("right_glowers")
@@ -195,3 +202,13 @@ func activate_glower():
 func change_all_glowers(glowers):
 	for i in main.get_node(glowers).get_children():
 		i.change_status("danger") 
+
+func change_mode(value):
+	if value == "normal":
+		mode = value
+	else:
+		mode = value
+		mode_cooldown.start()
+		
+func on_mode_cooldown_complete():
+	mode = "normal"
