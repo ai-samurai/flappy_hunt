@@ -38,6 +38,7 @@ func _ready():
 	#set_archer_properties($archer, 3)
 	$PopTimer.connect("timeout", self, "on_PopTimer_cooldown")
 
+
 func add_archer():
 	archer_2_instance.name = "archer2"
 	add_child(archer_2_instance)
@@ -93,6 +94,7 @@ func _on_MobileControls_right_swipe(start_position):
 	$bird.right_move()
 
 func _on_MobileControls_jump(start_position):
+	print("in loop")
 	$bird.jump()
 
 # function to control boost display symbols
@@ -133,7 +135,6 @@ func set_archer_properties(archer, shoot_interval = 2):
 	archer.shoot_interval = shoot_interval
 
 func score_pop(pos, value=1, bonus=false):
-	print(bonus)
 	var pop = ScorePop.instance()
 	pop.position = pos
 	pop.get_node("Label").text = "+" + str(value)
@@ -143,5 +144,4 @@ func score_pop(pos, value=1, bonus=false):
 	else: add_child(pop)
 
 func on_PopTimer_cooldown():
-	print("in timer f/n")
 	add_child(bonus_pop)
